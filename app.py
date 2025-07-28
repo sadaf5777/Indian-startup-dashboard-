@@ -1,11 +1,10 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-df=pd.read_csv("startup_cleaned.csv ")
+df=pd.read_csv("startup_cleaned.csv")
 df['date']=pd.to_datetime(df['date'])
 df["years"]=df['date'].dt.year
 df["month"]=df['date'].dt.month
-st.sidebar.title("Startup funding analysis")
 def load_investor_details(investor_name):
     st.title(investor_name)
     # loads 5 most recently investments
