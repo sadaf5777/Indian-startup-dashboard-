@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-df=pd.read_csv(r"C:\Users\Nadeem Anwar\Desktop\projects\startup dashboard\startup_cleaned.csv")
+df=pd.read_csv("startup_cleaned.csv")
 df['date']=pd.to_datetime(df['date'])
 df["years"]=df['date'].dt.year.fillna(method='ffill').astype(int)
 df["month"]=df['date'].dt.month.fillna(method='ffill').astype(int)
