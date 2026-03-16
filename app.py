@@ -1,10 +1,10 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-df=pd.read_csv("startup_cleaned.csv")
+df=pd.read_csv(r"C:\Users\Nadeem Anwar\Desktop\projects\startup dashboard\startup_cleaned.csv")
 df['date']=pd.to_datetime(df['date'])
-df["years"]=df['date'].dt.year
-df["month"]=df['date'].dt.month
+df["years"]=df['date'].dt.year.fillna(method='ffill').astype(int)
+df["month"]=df['date'].dt.month.fillna(method='ffill').astype(int)
 def load_investor_details(investor_name):
     st.title(investor_name)
     # loads 5 most recently investments
@@ -17,6 +17,8 @@ def load_investor_details(investor_name):
         most_invested=df[df['investor'].str.contains(investor_name)].groupby('startup')['amount'].sum().sort_values(ascending=False).head()
         fig, ax = plt.subplots()
         ax.bar(most_invested.index, most_invested.values)
+        plt.xlabel('Startups')
+        plt.ylabel('amount in Cr')
         st.pyplot(fig)  
 
     with col2:
@@ -73,16 +75,28 @@ def overall_analysis():
     selected_option=st.selectbox('select_type',['total','count'])
     if selected_option=='total':
         temp_df=df.groupby(['years','month'])['amount'].sum().reset_index()
+        temp_df["x_axis"]=temp_df['month'].astype("str")+'-'+temp_df['years'].astype('str')
+        fig4, ax4 = plt.subplots(figsize=(10,5))
+        ax4.plot(temp_df["x_axis"],temp_df["amount"])
+        plt.xlabel("Month-Year")
+        plt.ylabel("Amount")
+        plt.xticks(rotation=90)
+        plt.tight_layout()
+        st.pyplot(fig4)
 
     else:
         temp_df=df.groupby(['years','month'])['amount'].count().reset_index()
 
 
-    temp_df["x_axis"]=temp_df['month'].astype("str")+'-'+temp_df['years'].astype('str')
-    fig4, ax4 = plt.subplots()
-    ax4.plot(temp_df["x_axis"],temp_df["amount"])
-    st.pyplot(fig4)
-    
+        temp_df["x_axis"]=temp_df['month'].astype("str")+'-'+temp_df['years'].astype('str')
+        fig4, ax4 = plt.subplots(figsize=(10,5))
+        ax4.plot(temp_df["x_axis"],temp_df["amount"])
+        plt.xlabel("Month-Year")
+        plt.ylabel("Starups")
+        plt.xticks(rotation=90)
+        plt.tight_layout()
+        st.pyplot(fig4)
+        
     
 
 
