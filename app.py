@@ -5,12 +5,13 @@ import numpy as np
 
 df= pd.read_csv("cleaned_startups_unexploded_latest_less_verticals.csv")
 
+df['date'] = pd.to_datetime(df['date'], errors='coerce')
 
-#df=pd.read_csv("cleaned_startups_unexploded_latest")
+df["years"] = df['date'].dt.year
+df["years"] = df["years"].ffill().bfill().astype(int)
 
-df['date']=pd.to_datetime(df['date'])
-df["years"]=df['date'].dt.year.fillna(method='ffill').astype(int)
-df["month"]=df['date'].dt.month.fillna(method='ffill').astype(int)
+df["month"] = df['date'].dt.month
+df["month"] = df["month"].ffill().bfill().astype(int)
 def load_investor_details(investor_name):
     st.title(investor_name)
     # loads 5 most recently investments
