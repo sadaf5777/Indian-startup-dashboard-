@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 @st.cache_data
 def load_data():
-    return pd.read_csv("cleaned_startups_unexploded_latest.csv")
+    return pd.read_csv("cleaned_startups_unexploded_latest_less_verticals.csv")
 
 df = load_data()
 #df=pd.read_csv("cleaned_startups_unexploded_latest")
